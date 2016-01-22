@@ -6,6 +6,7 @@ from . import helpers
 import os
 import gitdict
 
+
 def root_factory(request):
     git_repo_path = os.path.dirname(os.path.dirname(__file__))
     return gitdict.Repository(git_repo_path)

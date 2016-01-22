@@ -38,7 +38,13 @@
         and <a href="/gitdictonpyramid/views.py">views.py</a> files
     </p>
     <hr>
-    <h2>git path: /${context.git_path}</h2>
+    <h2>
+        git path: 
+        <span tal:repeat="item h.parents(context)" tal:omit-tag="">
+            <a href="${request.resource_url(item)}">${item.__name__ or 'root'}</a> / 
+        </span>
+        ${context.__name__ or 'root /'}
+    </h2>
     <dl>
         <dt>commit message</dt>
         <dd>${h.first_line(context.last_commit.message)}</dd>
