@@ -5,6 +5,7 @@ from . import helpers
 
 import os
 import gitdict
+import mimetypes
 
 
 def root_factory(request):
@@ -22,4 +23,8 @@ def main(global_config, **settings):
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_subscriber(add_render_helper, BeforeRender)
     config.scan()
+    # these mimetypes will be used in file.pt
+    mimetypes.add_type('text/template', '.pt')
+    mimetypes.add_type('text/config', '.ini')
+    mimetypes.add_type('text/markdown', '.md')
     return config.make_wsgi_app()

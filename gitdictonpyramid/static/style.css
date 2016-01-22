@@ -4,3 +4,5 @@ body {
   font-weight: 300;
   padding:5rem;
 }
+.type-other { text-align:center; }
+.type-other-icon { font-size:400% }

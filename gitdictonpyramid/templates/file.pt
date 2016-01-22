@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="${request.locale_name}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="example for gitdict on pyramid ">
+    <meta name="author" content="Holger Frey">
+    <link rel="shortcut icon" href="${request.static_url('gitdictonpyramid:static/pyramid-16x16.png')}">
+
+    <title>example for gitdict on pyramid</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//oss.maxcdn.com/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this scaffold -->
+    <link href="${request.static_url('gitdictonpyramid:static/style.css')}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <h1>
+        An Example On How To Use <a href="http://github.com/holgi/gitdict">gitdict</a> 
+        (with <a href="http://pylonsproject.org">pyramid</a>)
+    </h1>
+    <p>
+        In this example, this pyramid project displays its source files by
+        accessing the git repository it is serverd from.
+    </p>
+    <p>
+        If you want to take a closer look on how gitdict is involved, take a 
+        look at the <a href="/gitdictonpyramid/__init__.py">__init__.py</a>
+        and <a href="/gitdictonpyramid/views.py">views.py</a> files
+    </p>
+    <hr>
+    <h2>
+        git path: 
+        <span tal:repeat="item h.parents(context)" tal:omit-tag="">
+            <a href="${request.resource_url(item)}">${item.__name__ or 'root'}</a> / 
+        </span>
+        ${context.__name__ or 'root /'}
+    </h2>
+    <dl>
+        <dt>commit message</dt>
+        <dd>${h.first_line(context.last_commit.message)}</dd>
+        <dt>commit by</dt>
+        <dd>${context.last_commit.committer.name}</dd>
+        <dt>commit date</dt>
+        <dd>${h.datetime.datetime.fromtimestamp(context.last_commit.commit_time).strftime('%Y-%m-%d %H:%M:%S')}</dd>
+        <dt>commit id</dt>
+        <dd>${context.last_commit.id}</dd>
+    </dl>
+    <div tal:switch="h.guess_type(context)" tal:omit-tag="">
+        <p tal:case="'text'"><pre>${context.text}</p>
+        <div tal:case="'image'" class="panel panel-default">
+            <div class="panel-body type-other">
+                <img src="${request.resource_url(context,'download')}">
+            </div>
+        </div>
+        <div tal:case="default" class="panel panel-default">
+            <div class="panel-body type-other">
+                <span class="type-other-icon glyphicon glyphicon-eye-close"></span><br>
+                unable to guess mime type <br>
+                might be binary file<br>
+                <a href="${request.resource_url(context,'download')}">download</a>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
