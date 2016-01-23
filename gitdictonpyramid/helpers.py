@@ -25,3 +25,10 @@ def guess_type(resource):
         return mtype
     top, sub = mtype.split('/', 1)
     return top
+
+def type_of_line(diff_line):
+    if diff_line.new_lineno < 0:
+        return 'line-del'
+    if diff_line.old_lineno < 0:
+        return 'line-add'
+    return ''

@@ -1,8 +1,42 @@
 @import url(//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700);
+
 body {
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 300;
-  padding:5rem;
-}
-.type-other { text-align:center; }
-.type-other-icon { font-size:400% }
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    padding:5rem;
+    }
+
+.type-other { 
+    text-align:center; 
+    }
+
+.type-other-icon { 
+    font-size:400% ;
+    }
+
+.history h2 {
+    margin-bottom:2rem;
+    }
+    
+.history .commit-info {
+    float:right;
+    }
+
+pre.panel-body { 
+    background-color:#fff; 
+    border:none; 
+    padding:0px 15px;
+    }
+
+.line { 
+    width:100%;
+    display:inline-block; 
+    }
+
+.line-del { 
+    background-color:#faa; 
+    }
+
+.line-add { 
+    background-color:#afa; 
+    }

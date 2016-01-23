@@ -23,7 +23,7 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body class="history">
     <h1>
         An Example On How To Use <a href="http://github.com/holgi/gitdict">gitdict</a> 
         (with <a href="http://pylonsproject.org">pyramid</a>)
@@ -39,40 +39,24 @@
     </p>
     <hr>
     <h2>
-        git path: 
+        history for: 
         <span tal:repeat="item h.parents(context)" tal:omit-tag="">
             <a href="${request.resource_url(item)}">${item.__name__ or 'root'}</a> / 
         </span>
-        ${context.__name__ or 'root /'}
+        <a href="${request.resource_url(context)}">${context.__name__}</a>
     </h2>
-    <dl>
-        <dt>commit message</dt>
-        <dd>${h.first_line(context.last_commit.message)}</dd>
-        <dt>commit by</dt>
-        <dd>${context.last_commit.committer.name}</dd>
-        <dt>commit date</dt>
-        <dd>${h.datetime.datetime.fromtimestamp(context.last_commit.commit_time).strftime('%Y-%m-%d %H:%M:%S')}</dd>
-        <dt>commit id</dt>
-        <dd>${context.last_commit.id}</dd>
-    </dl>
-    <div tal:switch="h.guess_type(context)" tal:omit-tag="">
-        <div tal:case="'text'">
-            <pre>${context.text}</pre>
-            <p><a href="${request.resource_url(context,'history')}">show history</p>
-        </div>
-        <div tal:case="'image'" class="panel panel-default">
-            <div class="panel-body type-other">
-                <img src="${request.resource_url(context,'download')}">
-            </div>
-        </div>
-        <div tal:case="default" class="panel panel-default">
-            <div class="panel-body type-other">
-                <span class="type-other-icon glyphicon glyphicon-eye-close"></span><br>
-                unable to guess mime type <br>
-                might be binary file<br>
-                <a href="${request.resource_url(context,'download')}">download</a>
-            </div>
-        </div>
+    
+    <div tal:repeat="(patch, commit) changes" class="panel panel-default">
+        <p class="panel-heading">${h.first_line(commit.message)}<span class="commit-info">${h.datetime.datetime.fromtimestamp(commit.commit_time).strftime('%Y-%m-%d')}, ${commit.committer.name}</span></p>
+        <pre tal:repeat="hunk patch.hunks" class="panel-body">
+<span tal:repeat="line hunk.lines" tal:omit-tag=""><span class="line ${h.type_of_line(line)}" tal:condition="line.content.startswith('\n\ No newline at end of file')==False"><span class="line-no">${'%3d'%(line.new_lineno if line.new_lineno>0 else line.old_lineno)}</span>   ${line.content.rstrip()}</span></span></pre>
     </div>
+    
+    <div class="panel panel-default">
+        <p class="panel-heading">${h.first_line(first_file_commit.message)}<span class="commit-info">${h.datetime.datetime.fromtimestamp(first_file_commit.commit_time).strftime('%Y-%m-%d')}, ${first_file_commit.committer.name}</span></p>
+        <pre class="panel-body">
+<span tal:repeat="line first_file_content.split('\n')" class="line line-add"><span class="line-no">${'%3d'%(repeat.line.number)}</span>   ${line.rstrip()}</span></pre>
+    </div>
+
   </body>
 </html>
