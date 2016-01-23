@@ -17,7 +17,7 @@ requires = [
     ]
 
 setup(name='GitDictOnPyramid',
-      version='0.0',
+      version='0.0.1',
       description='GitDictOnPyramid',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
@@ -29,7 +29,7 @@ setup(name='GitDictOnPyramid',
       author='',
       author_email='',
       url='',
-      keywords='web pyramid pylons',
+      keywords='web pyramid pylons git gitdict',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
